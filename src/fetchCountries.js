@@ -1,16 +1,17 @@
-// const BASE_URL = `https://restcountries.com/#api-endpoints-v3-name`;
 
-// export function fetchCountries(name) {
-//     return fetch().then(response =>
-//         response.json(`${BASE_URL}`),
-//     );
-// }
-//  console.log(fetchCountries)
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
+export function fetchCountries(name) {
+    
+    return fetch(`https://restcountries.com/v3.1/name/${name}?fields=name,capital,population,flags,languages`)
+        .then((response) => {
 
-fetch(`https://restcountries.com/#api-endpoints-v3-name`).then(response => {
-  // console.log(response.json());
-  return response.json();
-}).then(name => {
-  console.log(name);
-});
+            if (!response.ok) {
+                Notify.failure('Oops, there is no country with that name');                
+            return;
+            }
+
+            return response.json()
+        })
+        .catch((error) => console.log(error))
+};
